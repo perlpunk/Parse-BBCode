@@ -1,0 +1,46 @@
+---
+abstract: 'Module to parse BBCode and render it as HTML or text'
+author:
+  - 'Tina Mueller'
+build_requires:
+  Test::More: 0
+  Test::NoWarnings: 0
+configure_requires:
+  Module::Build: 0.34
+dynamic_config: 1
+generated_by: 'Module::Build version 0.38, CPAN::Meta::Converter version 2.110930'
+license: perl
+meta-spec:
+  url: http://module-build.sourceforge.net/META-spec-v1.4.html
+  version: 1.4
+name: Parse-BBCode
+provides:
+  Parse::BBCode:
+    file: lib/Parse/BBCode.pm
+    version: 0.13_003
+  Parse::BBCode::HTML:
+    file: lib/Parse/BBCode/HTML.pm
+    version: 0.05
+  Parse::BBCode::Markdown:
+    file: lib/Parse/BBCode/Markdown.pm
+    version: 0.02
+  Parse::BBCode::Tag:
+    file: lib/Parse/BBCode/Tag.pm
+    version: 0.02
+  Parse::BBCode::Text:
+    file: lib/Parse/BBCode/Text.pm
+    version: 0.03
+  Parse::BBCode::XHTML:
+    file: lib/Parse/BBCode/XHTML.pm
+    version: 0.01
+requires:
+  Carp: 0
+  Class::Accessor::Fast: 0.25
+  URI::Escape: 0
+  perl: v5.6.1
+  strict: 0
+  warnings: 0
+resources:
+  license: http://dev.perl.org/licenses/
+  repository: https://parse-bbcode.googlecode.com/svn
+version: 0.13_003
