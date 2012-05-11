@@ -13,7 +13,7 @@ __PACKAGE__->mk_accessors(qw/
 use Carp;
 my $scalar_util = eval "require Scalar::Util; 1";
 
-our $VERSION = '0.13_003';
+our $VERSION = '0.13_004';
 
 my %defaults = (
     strict_attributes   => 1,

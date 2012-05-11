@@ -1,5 +1,11 @@
 Revision history for Perl module Parse::BBCode
 
+0.13_004 Sat May 12 01:21:52 CEST 2012
+- Bugfix/Change: Allow whitespaces after attributes
+- Change: Allow underscores in attribute names
+- Change: Allow single quotes in attributes
+  (all RT#76137)
+
 0.13_003 Mon Oct  3 13:50:16 CEST 2011
 - Bugfix: closing noparse tags
 - new option: strip linebreaks before/after block tags is now configurable

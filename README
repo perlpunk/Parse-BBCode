@@ -254,10 +254,10 @@ DESCRIPTION
     error
         If the given bbcode is invalid (unbalanced or wrongly nested
         classes), currently Parse::BBCode::render() will either leave the
-        invalid tags unparsed, or, if you set the option `close_open_tags',
-        try to add closing tags. If this happened `error()' will return the
+        invalid tags unparsed, or, if you set the option "close_open_tags",
+        try to add closing tags. If this happened "error()" will return the
         invalid tag(s), otherwise false. To get the corrected bbcode (if you
-        set `close_open_tags') you can get the tree and return the raw text
+        set "close_open_tags") you can get the tree and return the raw text
         from it:
 
             if ($parser->error) {
@@ -314,26 +314,26 @@ DESCRIPTION
 
     The following list explains the above tag definitions:
 
-    `%s'
+    %s
             i => '<i>%s</i>'
 
             [i] italic <html> [/i]
             turns out as
             <i> italic &lt;html&gt; </i>
 
-        So `%s' stands for the tag content. By default, it is parsed itself,
+        So %s stands for the tag content. By default, it is parsed itself,
         so that you can nest tags.
 
-    `%{parse}s'
+    "%{parse}s"
             b   => '<b>%{parse}s</b>'
 
             [b] bold <html> [/b]
             turns out as
             <b> bold &lt;html&gt; </b>
 
-        `%{parse}s' is the same as `%s' because 'parse' is the default.
+        "%{parse}s" is the same as %s because 'parse' is the default.
 
-    `%a'
+    %a
             size => '<font size="%a">%{parse}s</font>'
 
             [size=7] some big text [/size]
@@ -343,18 +343,18 @@ DESCRIPTION
         So %a stands for the tag attribute. By default it will be HTML
         escaped.
 
-    url tag, `%A', `%{link}A'
+    url tag, %A, "%{link}A"
             url => 'url:<a href="%{link}a">%{parse}s</a>'
 
-        the first thing you can see is the `url:' at the beginning - this
+        the first thing you can see is the "url:" at the beginning - this
         defines the url tag as a tag with the class 'url', and urls must not
         be nested. So this class definition is mainly there to prevent
         generating wrong HTML. if you nest url tags only the outer one will
         be parsed.
 
         another thing you can see is how to apply a special escape. The
-        attribute defined with `%{link}a' is checked for a valid URL.
-        `javascript:' will be filtered.
+        attribute defined with "%{link}a" is checked for a valid URL.
+        "javascript:" will be filtered.
 
             [url=/foo.html]a link[/url]
             turns out as
@@ -369,19 +369,19 @@ DESCRIPTION
             <a href="">http://some.link.example</a>
 
         In the cases where the attribute should be the same as the content
-        you should use `%A' instead of `%a' which takes the content as the
+        you should use %A instead of %a which takes the content as the
         attribute as a fallback. You probably need this in all url-like
         tags:
 
             url => 'url:<a href="%{link}A">%{parse}s</a>',
 
-    `%{uri}A'
+    "%{uri}A"
         You might want to define your own urls, e.g. for wikipedia
         references:
 
             wikipedia => 'url:<a href="http://wikipedia/?search=%{uri}A">%{parse}s</a>',
 
-        `%{uri}A' will uri-encode the searched term:
+        "%{uri}A" will uri-encode the searched term:
 
             [wikipedia]Harold & Maude[/wikipedia]
             [wikipedia="Harold & Maude"]a movie[/wikipedia]
@@ -413,18 +413,18 @@ DESCRIPTION
         Because the noparse tag ends at the first closing tag, even if you
         have an additional opening noparse tag inside.
 
-        The `%{html}s' defines that the content should be HTML escaped. If
-        you don't want any escaping you can't say `%s' because the default
-        is 'parse'. In this case you have to write `%{noescape}'.
+        The "%{html}s" defines that the content should be HTML escaped. If
+        you don't want any escaping you can't say %s because the default is
+        'parse'. In this case you have to write "%{noescape}".
 
     Block tags
             quote => 'block:<blockquote>%s</blockquote>',
 
         To force valid html you can add classes to tags. The default class
-        is 'inline'. To declare it as a block add `'block:"' to the start of
+        is 'inline'. To declare it as a block add "'block:"" to the start of
         the string. Block tags inside of inline tags will either close the
         outer tag(s) or leave the outer tag(s) unparsed, depending on the
-        option `close_open_tags'.
+        option "close_open_tags".
 
     Define subroutine for tag
         All these definitions might not be enough if you want to define your
@@ -449,7 +449,7 @@ DESCRIPTION
             },
 
         So instead of a string you define a hash reference with a 'code' key
-        and a sub reference. The other key is `parse' which is 0 by default.
+        and a sub reference. The other key is "parse" which is 0 by default.
         If it is 0 the content in the tag won't be parsed, just as in the
         noparse tag above. If it is set to 1 you will get the rendered
         content as an argument to the subroutine.
@@ -508,7 +508,7 @@ DESCRIPTION
             },
 
         The hr-Tag is a block tag (should not be inside inline tags), and it
-        has no closing tag (option `single')
+        has no closing tag (option "single")
 
             [hr]
             Output:
@@ -526,10 +526,11 @@ ESCAPES
     You can define or override escapes. Default escapes are html, uri, link,
     email, htmlcolor, num. An escape functions as a validator and filter.
     For example, the 'link' escape looks if it got a valid URI (starting
-    with `/' or `\w+://') and html-escapes it. It returns the empty string
+    with "/" or "\w+://") and html-escapes it. It returns the empty string
     if the input is invalid.
 
-    See Parse::BBCode::HTML for the detailed list of escapes.
+    See "default_escapes" in Parse::BBCode::HTML for the detailed list of
+    escapes.
 
 URL FINDER
     Usually one wants to also create hyperlinks from any url found in the
@@ -698,9 +699,9 @@ SHORT TAGS
 
         [wikipedia://Harold & Maude]
 
-    You can define a short tag by adding the option `short'. The tag will
+    You can define a short tag by adding the option "short". The tag will
     work as a classic tag and short tag. If you only want to support the
-    short version, set the option `classic' to 0.
+    short version, set the option "classic" to 0.
 
         my $p = Parse::BBCode->new({
                 tags => {
@@ -808,10 +809,10 @@ SEE ALSO
     tags independently by their HTML aequivalents, so not very useful in
     many cases
 
-    See `examples/compare.html' for a feature comparison of the modules and
+    See "examples/compare.html" for a feature comparison of the modules and
     feel free to report mistakes.
 
-    See `examples/bench.pl' for a benchmark of the modules.
+    See "examples/bench.pl" for a benchmark of the modules.
 
 BUGS
     Please report bugs at

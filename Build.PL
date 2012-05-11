@@ -18,7 +18,7 @@ my $build = Module::Build->new(
     build_requires => {
         'Test::More'          => 0,
         'Test::NoWarnings'    => 0,
-        'Module::Build'       => 0.38,
+        'Module::Build'       => 0.28,
     },
     recommends         => {
     },
