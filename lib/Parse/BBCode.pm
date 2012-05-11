@@ -849,7 +849,7 @@ sub parse_attributes {
             my $val = defined $3 ? $3 : $4;
             push @array, [$name, $val];
         }
-        if ($self->get_strict_attributes and length $attr) {
+        if ($self->get_strict_attributes and length $attr and $attr =~ tr/ //c) {
             return (0, [], $attr_string, $end);
         }
         $attributes = [@array];
