@@ -840,13 +840,13 @@ sub parse_attributes {
             return (0, [], $attr_string, $end);
         }
         my @array;
-        if ($attr =~ s/^(?:"([^"]+)"|(.*?)(?:\s+|$))//) {
-            my $val = defined $1 ? $1 : $2;
+        if ($attr =~ s/^(?:(["'])(.+?)\1|(.*?)(?:\s+|$))//) {
+            my $val = defined $2 ? $2 : $3;
             push @array, [$val];
         }
-        while ($attr =~ s/^([a-zA-Z0-9]+)=(?:"([^"]+)"|(.*?)(?:\s+|$))//) {
+        while ($attr =~ s/^([a-zA-Z0-9_]+)=(?:(["'])(.+?)\2|(.*?)(?:\s+|$))//) {
             my $name = $1;
-            my $val = defined $2 ? $2 : $3;
+            my $val = defined $3 ? $3 : $4;
             push @array, [$name, $val];
         }
         if ($self->get_strict_attributes and length $attr) {

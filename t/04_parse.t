@@ -1,4 +1,4 @@
-use Test::More tests => 74;
+use Test::More tests => 76;
 use Test::NoWarnings;
 use Parse::BBCode;
 use strict;
@@ -60,6 +60,8 @@ my @tests = (
     [ q#[img://23]#,
         q#[img://23]# ],
     [ q#[img=foo align=center]test[/img]#,
+        q#<img src="foo" alt="[test]" title="test" align="center"># ],
+    [ q#[img=foo align='center']test[/img]#,
         q#<img src="foo" alt="[test]" title="test" align="center"># ],
     [ q#[url=/test]foo[/url] bla [url=/test2]foo2[/url]#,
         q#<a href="/test" rel="nofollow">foo</a> bla <a href="/test2" rel="nofollow">foo2</a>#],
