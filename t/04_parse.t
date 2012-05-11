@@ -143,7 +143,6 @@ for my $test (@tests) {
     cmp_ok($parsed, 'eq', $exp, "parse '$text'");
     if ($forbid) {
         $parser->permit($forbid);
-        $parser->permit($forbid);
     }
 }
 eval {

@@ -250,10 +250,11 @@ sub _compile_def {
             # tag attribute or content
             else {
                 my ($escapes, $type) = @$c;
+                my @escapes = @$escapes;
                 my $var = '';
                 my $attributes = $tag->get_attr;
                 if ($type eq 'attr' and @$attributes > 1) {
-                    my $name = shift @$escapes;
+                    my $name = shift @escapes;
                     for my $item (@$attributes[1 .. $#$attributes]) {
                         if ($item->[0] eq $name) {
                             $var = $item->[1];
@@ -274,7 +275,7 @@ sub _compile_def {
                     }
                     $var = $string;
                 }
-                for my $e (@$escapes) {
+                for my $e (@escapes) {
                     my $sub = $esc->{$e};
                     if ($sub) {
                         $var = $sub->($self, $c, $var);
