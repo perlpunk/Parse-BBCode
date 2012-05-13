@@ -8,12 +8,12 @@ __PACKAGE__->follow_best_practice;
 __PACKAGE__->mk_accessors(qw/
     tags allowed compiled plain strict_attributes close_open_tags error
     tree escapes direct_attribute params url_finder text_processor linebreaks
-    smileys attribute_parser strip_linebreaks /);
+    smileys attribute_parser strip_linebreaks attribute_quote /);
 #use Data::Dumper;
 use Carp;
 my $scalar_util = eval "require Scalar::Util; 1";
 
-our $VERSION = '0.13_004';
+our $VERSION = '0.14';
 
 my %defaults = (
     strict_attributes   => 1,
@@ -22,6 +22,7 @@ my %defaults = (
     smileys             => 0,
     url_finder          => 0,
     strip_linebreaks    => 1,
+    attribute_quote     => '"',
 );
 sub new {
     my ($class, $args) = @_;
@@ -819,6 +820,7 @@ sub parse_attributes {
     my ($self, %args) = @_;
     my $text = $args{text};
     my $tagname = $args{tag};
+    my $attribute_quote = $self->get_attribute_quote;
     my $attr_string = '';
     my $attributes = [];
     if (
@@ -840,14 +842,27 @@ sub parse_attributes {
             return (0, [], $attr_string, $end);
         }
         my @array;
-        if ($attr =~ s/^(?:(["'])(.+?)\1|(.*?)(?:\s+|$))//) {
-            my $val = defined $2 ? $2 : $3;
-            push @array, [$val];
+        if (length($attribute_quote) == 1) {
+            if ($attr =~ s/^(?:$attribute_quote(.+?)$attribute_quote|(.*?)(?:\s+|$))//) {
+                my $val = defined $1 ? $1 : $2;
+                push @array, [$val];
+            }
+            while ($attr =~ s/^([a-zA-Z0-9_]+)=(?:$attribute_quote(.+?)$attribute_quote|(.*?)(?:\s+|$))//) {
+                my $name = $1;
+                my $val = defined $2 ? $2 : $3;
+                push @array, [$name, $val];
+            }
         }
-        while ($attr =~ s/^([a-zA-Z0-9_]+)=(?:(["'])(.+?)\2|(.*?)(?:\s+|$))//) {
-            my $name = $1;
-            my $val = defined $3 ? $3 : $4;
-            push @array, [$name, $val];
+        else {
+            if ($attr =~ s/^(?:(["'])(.+?)\1|(.*?)(?:\s+|$))//) {
+                my $val = defined $2 ? $2 : $3;
+                push @array, [$val];
+            }
+            while ($attr =~ s/^([a-zA-Z0-9_]+)=(?:(["'])(.+?)\2|(.*?)(?:\s+|$))//) {
+                my $name = $1;
+                my $val = defined $3 ? $3 : $4;
+                push @array, [$name, $val];
+            }
         }
         if ($self->get_strict_attributes and length $attr and $attr =~ tr/ //c) {
             return (0, [], $attr_string, $end);
@@ -1073,6 +1088,34 @@ Normal tag syntax is:
 If set to 0, tag syntax is
 
   [tag attr2=val2 ...]
+
+=item attribute_quote
+
+You can change how the attribute values shuold be quoted.
+Default is a double quote (which is still optional):
+
+  my $parser = Parse::BBCode->new(
+      attribute_quote => '"',
+      ...
+  );
+  [tag="foo" attr="bar" attr2=baz]...[/tag]
+
+If you set it to single quote:
+
+  my $parser = Parse::BBCode->new(
+      attribute_quote => "'",
+      ...
+  );
+  [tag='foo' attr=bar attr2='baz']...[/tag]
+
+You can also set it to both: C<'">. Then both quoting types are
+allowed:
+
+  my $parser = Parse::BBCode->new(
+      attribute_quote => q/'"/,
+      ...
+  );
+  [tag='foo' attr="bar" attr2=baz]...[/tag]
 
 =item attribute_parser
 

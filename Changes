@@ -1,5 +1,9 @@
 Revision history for Perl module Parse::BBCode
 
+0.14 Sun May 13 16:56:03 CEST 2012
+- See changes from the develop versions
+- Make single quoting of attributes optional (see option attribute_quote)
+
 0.13_004 Sat May 12 01:21:52 CEST 2012
 - Bugfix/Change: Allow whitespaces after attributes
 - Change: Allow underscores in attribute names

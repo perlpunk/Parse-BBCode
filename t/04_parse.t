@@ -1,4 +1,4 @@
-use Test::More tests => 78;
+use Test::More tests => 80;
 use Test::NoWarnings;
 use Parse::BBCode;
 use strict;
@@ -14,12 +14,30 @@ eval {
 my $email_valid = $@ ? 0 : 1;
 #$email_valid = 0;
 
-my $bbc2html = Parse::BBCode->new({                                                              
+my $bbc2html = Parse::BBCode->new({
         tags => {
             Parse::BBCode::HTML->defaults,
             %tag_def_html,
             'img'   => '<img src="%{html}A" alt="[%{html}s]" title="%{html}s" align="%{align}attr">',
         },
+    }
+);
+my $bbc2html_sq = Parse::BBCode->new({
+        tags => {
+            Parse::BBCode::HTML->defaults,
+            %tag_def_html,
+            'img'   => '<img src="%{html}A" alt="[%{html}s]" title="%{html}s" align="%{align}attr">',
+        },
+        attribute_quote => q/'/,
+    }
+);
+my $bbc2html_sdq = Parse::BBCode->new({
+        tags => {
+            Parse::BBCode::HTML->defaults,
+            %tag_def_html,
+            'img'   => '<img src="%{html}A" alt="[%{html}s]" title="%{html}s" align="%{align}attr">',
+        },
+        attribute_quote => q/'"/,
     }
 );
 my $bbc2html2 = Parse::BBCode->new({                                                              
@@ -62,7 +80,9 @@ my @tests = (
     [ q#[img=foo align=center]test[/img]#,
         q#<img src="foo" alt="[test]" title="test" align="center"># ],
     [ q#[img=foo align='center']test[/img]#,
-        q#<img src="foo" alt="[test]" title="test" align="center"># ],
+        q#<img src="foo" alt="[test]" title="test" align="center">#, undef, $bbc2html_sq ],
+    [ q#[img=foo align='center']test[/img]#,
+        q#<img src="foo" alt="[test]" title="test" align="center">#, undef, $bbc2html_sdq ],
     [ q#[img=foo align="center" ]test[/img]#,
         q#<img src="foo" alt="[test]" title="test" align="center"># ],
     [ q#[url=/test]foo[/url] bla [url=/test2]foo2[/url]#,

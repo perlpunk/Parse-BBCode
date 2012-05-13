@@ -181,6 +181,33 @@ DESCRIPTION
 
               [tag attr2=val2 ...]
 
+        attribute_quote
+            You can change how the attribute values shuold be quoted.
+            Default is a double quote (which is still optional):
+
+              my $parser = Parse::BBCode->new(
+                  attribute_quote => '"',
+                  ...
+              );
+              [tag="foo" attr="bar" attr2=baz]...[/tag]
+
+            If you set it to single quote:
+
+              my $parser = Parse::BBCode->new(
+                  attribute_quote => "'",
+                  ...
+              );
+              [tag='foo' attr=bar attr2='baz']...[/tag]
+
+            You can also set it to both: "'"". Then both quoting types are
+            allowed:
+
+              my $parser = Parse::BBCode->new(
+                  attribute_quote => q/'"/,
+                  ...
+              );
+              [tag='foo' attr="bar" attr2=baz]...[/tag]
+
         attribute_parser
             You can pass a subref that overrides the default attribute
             parsing. See "ATTRIBUTE PARSING"
