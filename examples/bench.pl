@@ -25,6 +25,10 @@ my $code = <<'EOM';
 
 EOM
 
+my ($count, $multiply) = @ARGV;
+$multiply ||= 1;
+$code = $code x $multiply;
+
 sub create_au {
     my $pb = AUBBC->new();
     return $pb;
@@ -90,7 +94,7 @@ if ($loaded{'AUBBC'}) {
 }
 
 
-timethese($ARGV[0] || -1, {
+timethese($count || -1, {
     $loaded{'Parse::BBCode'} ?  (
         'P::B::new'  => \&create_pb,
         'P::B'  => sub { my $out = $pb->render($code) },
