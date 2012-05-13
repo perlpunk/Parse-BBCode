@@ -20,6 +20,9 @@ my $build = Module::Build->new(
         'Test::NoWarnings'    => 0,
         'Module::Build'       => 0.28,
     },
+    configure_requires => {
+        'Module::Build'       => 0.28,
+    },
     recommends         => {
     },
     create_readme      => 1,
