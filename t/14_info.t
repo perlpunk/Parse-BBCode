@@ -1,4 +1,4 @@
-use Test::More tests => 15;
+use Test::More tests => 16;
 use Parse::BBCode;
 use strict;
 use warnings;
@@ -177,8 +177,10 @@ $p = Parse::BBCode->new({
         },
     });
 @tests = (
-    [ qq#[b]bold<hr> :-)[/b] :-(\n:-P :-'|\ntest:-P end#,
-        qq#<b>BOLD&lt;HR&gt; <img alt=":-)" src="/icons/smile.png"></b> <img alt=":-(" src="/icons/sad.png"><br>\n<img alt=":-P" src="/icons/tongue.gif"> <img alt=":-&\#39;|" src="/icons/cold.png"><br>\nTEST:-P END# ],
+    [ qq#:-)[b]bold<hr> :-)[/b] :-(\n:-P :-'|\ntest:-P end#,
+        qq#<img alt=":-)" src="/icons/smile.png"><b>BOLD&lt;HR&gt; <img alt=":-)" src="/icons/smile.png"></b> <img alt=":-(" src="/icons/sad.png"><br>\n<img alt=":-P" src="/icons/tongue.gif"> <img alt=":-&\#39;|" src="/icons/cold.png"><br>\nTEST:-P END# ],
+    [q#:-) :-)#,
+        q#<img alt=":-)" src="/icons/smile.png"> <img alt=":-)" src="/icons/smile.png">#],
 );
 for my $test (@tests) {
     my ($text, $exp) = @$test;

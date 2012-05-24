@@ -110,7 +110,7 @@ sub _compile_tags {
                 my $code = sub {
                     my ($text, $post_processor) = @_;
                     my $out = '';
-                    while ($text =~ s/^ (^|.*?[\s]) ($re) (?=[\s]|$)//xsm) {
+                    while ($text =~ s/\A (^|.*?[\s]) ($re) (?=[\s]|$)//xsm) {
                         my ($pre, $emo) = ($1, $2);
                         my $url = "$smileys->{base_url}$smileys->{icons}->{$emo}";
                         my $emo_escaped = Parse::BBCode::escape_html($emo);
