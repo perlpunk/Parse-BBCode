@@ -843,11 +843,11 @@ sub parse_attributes {
         }
         my @array;
         if (length($attribute_quote) == 1) {
-            if ($attr =~ s/^(?:$attribute_quote(.+?)$attribute_quote|(.*?)(?:\s+|$))//) {
+            if ($attr =~ s/^(?:$attribute_quote(.+?)$attribute_quote(?:\s+|$)|(.*?)(?:\s+|$))//) {
                 my $val = defined $1 ? $1 : $2;
                 push @array, [$val];
             }
-            while ($attr =~ s/^([a-zA-Z0-9_]+)=(?:$attribute_quote(.+?)$attribute_quote|(.*?)(?:\s+|$))//) {
+            while ($attr =~ s/^([a-zA-Z0-9_]+)=(?:$attribute_quote(.+?)$attribute_quote(?:\s+|$)|(.*?)(?:\s+|$))//) {
                 my $name = $1;
                 my $val = defined $2 ? $2 : $3;
                 push @array, [$name, $val];
