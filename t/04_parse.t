@@ -1,4 +1,4 @@
-use Test::More tests => 80;
+use Test::More tests => 86;
 use Test::NoWarnings;
 use Parse::BBCode;
 use strict;
@@ -40,13 +40,13 @@ my $bbc2html_sdq = Parse::BBCode->new({
         attribute_quote => q/'"/,
     }
 );
-my $bbc2html2 = Parse::BBCode->new({                                                              
+my $bbc2html2 = Parse::BBCode->new({
         close_open_tags => 1,
     escapes => {
         Parse::BBCode::HTML->default_escapes,
     },
     });
-my $bbc2html_block = Parse::BBCode->new({                                                              
+my $bbc2html_block = Parse::BBCode->new({
         tags => {
             Parse::BBCode::HTML->defaults,
             %tag_def_html,
@@ -66,7 +66,7 @@ my $bbc2html_block = Parse::BBCode->new({
         },
     }
 );
-my $pns = Parse::BBCode->new({                                                              
+my $pns = Parse::BBCode->new({
         tags => {
             b => '<b>%s</b>',
         },
@@ -151,6 +151,12 @@ my @tests = (
         q# [] #, ],
     [ q#[b]test[/i]#,
         q#<b>test[/i]</b>#, undef, $bbc2html2, 1],
+    [ q#[noparse="bar"]test[/noparse]#,
+        q#test#],
+    [ q#[noparse="bar" baz="boo"]test[/noparse]#,
+        q#test#],
+    [ q#[noparse="bar" bar="baz" baz="boo"]test[/noparse]#,
+        q#test#],
 );
 for my $test (@tests) {
     my ($text, $exp, $forbid, $parser, $error) = @$test;
