@@ -13,7 +13,7 @@ __PACKAGE__->mk_accessors(qw/
 use Carp;
 my $scalar_util = eval "require Scalar::Util; 1";
 
-our $VERSION = '0.14';
+our $VERSION = '0.14_001';
 
 my %defaults = (
     strict_attributes   => 1,
@@ -805,7 +805,7 @@ sub _render_tree {
 }
 
 
-sub escape_html {                                                                                          
+sub escape_html {
     my ($str) = @_;
     return '' unless defined $str;
     $str =~ s/&/&amp;/g;
@@ -931,7 +931,7 @@ Or if you want to define your own tags:
             tags => {
                 # load the default tags
                 Parse::BBCode::HTML->defaults,
-                
+
                 # add/override tags
                 url => 'url:<a href="%{link}A">%{parse}s</a>',
                 i   => '<i>%{parse}s</i>',

@@ -1,5 +1,8 @@
 Revision history for Perl module Parse::BBCode
 
+0.14_001 2014-07-12 23:00:00 CEST
+- Bugfix: multiple quoted attributes were not parsed correctly (TLoD-Snake, github #3)
+
 0.14 Sun May 13 16:56:03 CEST 2012
 - See changes from the develop versions
 - Make single quoting of attributes optional (see option attribute_quote)
