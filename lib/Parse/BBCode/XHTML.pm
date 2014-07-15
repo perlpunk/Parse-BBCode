@@ -1,11 +1,11 @@
 package Parse::BBCode::XHTML;
+
 use strict;
 use warnings;
 use Carp qw(croak carp);
 use URI::Escape;
 use base qw/ Parse::BBCode /;
 
-our $VERSION = '0.01';
 my $email_valid = 0;
 eval {
     require

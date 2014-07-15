@@ -1,4 +1,5 @@
 package Parse::BBCode;
+
 use strict;
 use warnings;
 use Parse::BBCode::Tag;
@@ -12,8 +13,6 @@ __PACKAGE__->mk_accessors(qw/
 #use Data::Dumper;
 use Carp;
 my $scalar_util = eval "require Scalar::Util; 1";
-
-our $VERSION = '0.14_001';
 
 my %defaults = (
     strict_attributes   => 1,
@@ -963,11 +962,6 @@ Or if you want to define your own tags:
 
 =head1 DESCRIPTION
 
-Note: This module is still experimental, the syntax is subject to
-change. I'm open for any suggestions on how to improve the
-syntax.
-See L<"TODO"> for what might change.
-
 If you set up the Parse::BBCode object without arguments, the default tags
 are loaded, and any text outside or inside of parseable tags will go through
 a default subroutine which escapes HTML and replaces newlines with <br>
@@ -1050,10 +1044,9 @@ If you don't want this, set 'linebreaks' to 0.
 
 =item text_processor
 
-If you need to add any customized text processing (like smiley parsing (although
-I will probably add builtin smiley support in one of the next versions)), you can
-pass a subroutine here. Note that this subroutine also needs to do HTML
-escaping itself!
+If you need to add any customized text processing (like smiley parsing, for
+example), you can pass a subroutine here. Note that this subroutine also
+needs to do HTML escaping itself!
 
 See L<"TEXT PROCESSORS">
 
@@ -1577,9 +1570,9 @@ The size tag should be parsed normally, the foo tag needs different parsing.
             # work on $$text
             # result should be something like:
             # $$text should contain 'footext[/foo] end'
-            $valid = 1;
-            @attr = ( [''], [1 => 'bar'], [2 => 'boo'] );
-            $attr_string = '|bar|boo';
+            my $valid = 1;
+            my @attr = ( [''], [1 => 'bar'], [2 => 'boo'] );
+            my $attr_string = '|bar|boo';
             return ($valid, [@attr], $attr_string, ']');
         }
         else {
@@ -1789,7 +1782,7 @@ to the parsing process, only for the rendering phase.
 
 =head1 REQUIREMENTS
 
-perl >= 5.6.1, L<Class::Accessor::Fast>, L<URI::Escape>
+perl >= 5.8.0, L<Class::Accessor::Fast>, L<URI::Escape>
 
 =head1 SEE ALSO
 
@@ -1810,6 +1803,7 @@ See C<examples/bench.pl> for a benchmark of the modules.
 =head1 BUGS
 
 Please report bugs at http://rt.cpan.org/NoAuth/Bugs.html?Dist=Parse-BBCode
+or https://github.com/perlpunk/Parse-BBCode/issues
 
 =head1 AUTHOR
 
@@ -1826,7 +1820,7 @@ Sascha Kiefer
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (C) 2011 by Tina Mueller
+Copyright (C) 2014 by Tina Mueller
 
 This library is free software; you can redistribute it and/or modify it under
 the same terms as Perl itself, either Perl version 5.6.1 or, at your option,

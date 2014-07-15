@@ -1,9 +1,9 @@
 package Parse::BBCode::Tag;
+
 use strict;
 use warnings;
 use Carp qw(croak carp);
 
-our $VERSION = '0.02';
 use base 'Class::Accessor::Fast';
 __PACKAGE__->follow_best_practice;
 __PACKAGE__->mk_accessors(qw/ name attr attr_raw content

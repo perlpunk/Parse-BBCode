@@ -1,4 +1,5 @@
 package Parse::BBCode::HTML;
+
 use strict;
 use warnings;
 use Carp qw(croak carp);
@@ -6,7 +7,6 @@ use URI::Escape;
 use base 'Exporter';
 our @EXPORT_OK = qw/ &defaults &default_escapes &optional /;
 
-our $VERSION = '0.05';
 my $email_valid = 0;
 eval {
     require
