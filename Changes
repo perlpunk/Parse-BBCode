@@ -1,5 +1,8 @@
 Revision history for Perl module Parse::BBCode
 
+0.15 2014-07-15 16:16:00 CEST
+- POD, minimum perl, consistent version numbers
+
 0.14_001 2014-07-12 23:00:00 CEST
 - Bugfix: multiple quoted attributes were not parsed correctly (TLoD-Snake, github #3)
 
