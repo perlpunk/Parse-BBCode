@@ -1,7 +1,8 @@
 Revision history for Perl module Parse::BBCode
 
-0.15_001
-- perl >= 5.8 is a requirement now (mvgrimes++)
+0.15_001 2016-05-03 14:23:00 CEST
+- perl >= 5.8 is a requirement now (github PR #6 mvgrimes++)
+- fix markdown and testing (github PR #4 khrt++)
 
 0.15 2014-07-15 16:16:00 CEST
 - POD, minimum perl, consistent version numbers
