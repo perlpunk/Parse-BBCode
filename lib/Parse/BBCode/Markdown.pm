@@ -19,11 +19,11 @@ my %default_tags = (
     'list'  => 'block:%{parse}s',
     '*'     => {
         parse => 1,
-        output => '* %s',
+        output => "* %s\n",
         close => 0,
         class => 'block',
     },
-    quote => {
+    'quote' => {
         parse => 1,
         class => 'block',
         code => sub {
