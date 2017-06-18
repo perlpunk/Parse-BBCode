@@ -6,7 +6,7 @@ use Carp qw(croak carp);
 
 use base 'Class::Accessor::Fast';
 __PACKAGE__->follow_best_practice;
-__PACKAGE__->mk_accessors(qw/ name attr attr_raw content
+__PACKAGE__->mk_accessors(qw/ id name attr attr_raw content
     finished start end close class single type in_url num level auto_closed /);
 
 sub add_content {
@@ -180,6 +180,10 @@ The accessors of a tag are currently
 You can call each accessor with C<get_*> and C<set_*>
 
 =over 4
+
+=item id
+
+The id of the tag, which will be unique in the tree.
 
 =item name
 

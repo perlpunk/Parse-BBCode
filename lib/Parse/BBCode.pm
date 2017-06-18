@@ -7,7 +7,7 @@ use Parse::BBCode::HTML qw/ &defaults &default_escapes &optional /;
 use base 'Class::Accessor::Fast';
 __PACKAGE__->follow_best_practice;
 __PACKAGE__->mk_accessors(qw/
-    tags allowed compiled plain strict_attributes close_open_tags error
+    maxid tags allowed compiled plain strict_attributes close_open_tags error
     tree escapes direct_attribute params url_finder text_processor linebreaks
     smileys attribute_parser strip_linebreaks attribute_quote /);
 #use Data::Dumper;
@@ -48,8 +48,8 @@ sub new {
     return $self;
 }
 
-my $re_split = qr{ % (?:\{ (?:[a-zA-Z\|]+) \})? (?:attr|[Aas]) }x;
-my $re_cmp = qr{ % (?:\{ ([a-zA-Z\|]+) \})? (attr|[Aas]) }x;
+my $re_split = qr{ % (?:\{ (?:[a-zA-Z\|]+) \})? (?:attr|id|[Aas]) }x;
+my $re_cmp = qr{ % (?:\{ ([a-zA-Z\|]+) \})? (attr|id|[Aas]) }x;
 
 sub forbid {
     my ($self, @tags) = @_;
@@ -268,6 +268,9 @@ sub _compile_def {
                 elsif ($type eq 'A') {
                     $var = $fallback;
                 }
+                elsif ($type eq 'id') {
+                    $var = $tag->get_id;
+                }
                 elsif ($type eq 's') {
                     if (ref $string eq 'SCALAR') {
                         # this text is already finished and escaped
@@ -312,6 +315,7 @@ sub parse {
     my ($self, $text, $params) = @_;
     my $parse_attributes = $self->get_attribute_parser ? $self->get_attribute_parser : $self->can('parse_attributes');
     $self->set_error(undef);
+    $self->set_maxid(0);
     my $defs = $self->get_tags;
     my $tags = $self->get_allowed || [keys %$defs];
     my @classic_tags = grep { $defs->{$_}->{classic} } @$tags;
@@ -526,7 +530,10 @@ sub parse {
             if ($after =~ s{ :// ([^\[]+) \] }{}x) {
                 my $content = $1;
                 my ($attr, $title) = split /\|/, $content, 2;
+                my $id = $self->get_maxid + 1;
+                $self->set_maxid($id);
                 my $tag = $self->new_tag({
+                        id     => $id,
                         name    => lc $tag1,
                         attr    => [[$attr]],
                         attr_raw => $attr,
@@ -538,6 +545,7 @@ sub parse {
                         in_url  => $in_url,
                         type    => 'short',
                     });
+                $self->set_maxid($id);
                 if ($in_url and $tag->get_class eq 'url') {
                     $callback_found_text->($tag->get_start);
                 }
@@ -569,7 +577,10 @@ sub parse {
                 #warn __PACKAGE__.':'.__LINE__.": found attribute for $tag: $attr\n";
                 my $close = $defs->{lc $tag}->{close};
                 my $def = $defs->{lc $tag};
+                my $id = $self->get_maxid + 1;
+                $self->set_maxid($id);
                 my $open = $self->new_tag({
+                        id      => $id,
                         name    => lc $tag,
                         attr    => $attributes,
                         attr_raw => $attr_string,
@@ -665,6 +676,7 @@ sub parse {
     #warn __PACKAGE__.':'.__LINE__.": !!!!!!!!!!!! left text: '$text'\n";
     #warn __PACKAGE__.':'.__LINE__.$".Data::Dumper->Dump([\@tags], ['tags']);
     my $tree = $self->new_tag({
+        id => 0,
         name => '',
         content => [@tags],
         start => '',
@@ -1231,7 +1243,7 @@ Here is an example of all the current definition possibilities:
     my $p = Parse::BBCode->new({
             tags => {
                 i   => '<i>%s</i>',
-                b   => '<b>%{parse}s</b>',
+                b   => '<b id="%id">%{parse}s</b>',
                 size => '<font size="%a">%{parse}s</font>',
                 url => 'url:<a href="%{link}A">%{parse}s</a>',
                 wikipedia => 'url:<a href="http://wikipedia.../?search=%{uri}A">%{parse}s</a>',
@@ -1275,6 +1287,12 @@ The following list explains the above tag definitions:
 
 So C<%s> stands for the tag content. By default, it is parsed itself,
 so that you can nest tags.
+
+=item C<%id>
+
+    b   => '<b id="%id">%s</b>'
+
+This will return the id of the tag. Every tag has its own unique id.
 
 =item C<%{parse}s>
 

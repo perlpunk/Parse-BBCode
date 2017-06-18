@@ -1,5 +1,8 @@
 Revision history for Perl module Parse::BBCode
 
+0.15_002
+- Add 'id' attribute to Parse::BBCode::Tag
+
 0.15_001 2016-05-03 14:23:00 CEST
 - perl >= 5.8 is a requirement now (github PR #6 mvgrimes++)
 - fix markdown and testing (github PR #4 khrt++)

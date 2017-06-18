@@ -1,4 +1,4 @@
-use Test::More tests => 86;
+use Test::More tests => 88;
 use Test::NoWarnings;
 use Parse::BBCode;
 use strict;
@@ -73,6 +73,12 @@ my $pns = Parse::BBCode->new({
         strict_attributes => 0,
     }
 );
+my $idtest = Parse::BBCode->new({
+        tags => {
+            b => '<b id="%id">%s</b>',
+        },
+    }
+);
 
 my @tests = (
     [ q#[img://23]#,
@@ -93,6 +99,8 @@ my @tests = (
         q#<b>bold</b># ],
     [ q#[b]bold[/B]#,
         q#<b>bold</b># ],
+    [ q#[b]bold with id attribute[/b]#,
+        q#<b id="1">bold with id attribute</b>#, undef, $idtest ],
     [ q#[b foo bar]bold[/B]#,
         q#<b>bold</b>#, undef, $pns],
     [ q#[i=23]italic [b]bold italic <html>[/b][/i]# . "$/$/",
