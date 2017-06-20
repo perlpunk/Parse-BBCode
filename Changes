@@ -1,6 +1,6 @@
 Revision history for Perl module Parse::BBCode
 
-0.15_002
+0.15_002 Tue 20 Jun 22:31:01 CEST 2017
 - Add 'id' attribute to Parse::BBCode::Tag
 
 0.15_001 2016-05-03 14:23:00 CEST
